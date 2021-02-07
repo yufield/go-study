@@ -14,7 +14,7 @@ type Type struct {
 	f6     string `one:"1" two:"2"blank:""`
 }
 
-func Test(t *testing.T) {
+func TestReflect(t *testing.T) {
 	type1 := reflect.TypeOf(Type{})  //获取变量对应类型reflect.Type
 	f1, _ := type1.FieldByName("f1") //根据属性名获取类型的属性reflect.StructField
 	fmt.Println(f1.Tag)              // f one 属性的标签StructTag

@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func Test(t *testing.T) {
+func TestTime(t *testing.T) {
 	time1, _ := time.Parse("2006-01-02 15:04:05 MST", "2021-02-05 14:27:20 CST")
 	time2 := time.Date(2009, time.November, 10, 23, 2, 3, 6, time.UTC)
 	format := time1.Format("2006年1月2日15点4分5秒")

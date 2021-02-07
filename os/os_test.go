@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func Test(t *testing.T) {
+func TestOs(t *testing.T) {
 	stat, _ := os.Stat("../gotest.txt")               //文件gotest.txt的信息
 	fmt.Println(stat.Name())                          //文件名gotest.txt
 	fmt.Println(stat.Size())                          //文件大小18字节,18B
