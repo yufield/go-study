@@ -1,0 +1,84 @@
+package main
+
+import (
+	"fmt"
+	"go/ast"
+	"go/parser"
+	"go/token"
+	"os"
+	"sync"
+	"time"
+)
+
+type Movie struct {
+	Title  string
+	Year   int  `json:"released"`
+	Color  bool `json:"color,omitempty"`
+	Actors []string
+}
+
+var movies = []Movie{
+	{Title: "Casablanca", Year: 1942, Color: false,
+		Actors: []string{"Humphrey Bogart", "Ingrid Bergman"}},
+	{Title: "Cool Hand Luke", Year: 1967, Color: true,
+		Actors: []string{"Paul Newman"}},
+	{Title: "Bullitt", Year: 1968, Color: true,
+		Actors: []string{"Steve McQueen", "Jacqueline Bisset"}},
+	// ...
+}
+var abort = make(chan bool)
+var mu = sync.Mutex{}
+var count = 0
+var smap = sync.Map{}
+
+var done = make(chan struct{})
+
+type next interface {
+	next()
+}
+
+func main() {
+	fmt.Printf("%.2g", 612.3)
+}
+func main2() {
+	expr := `a == 1 && b == 2`
+	fset := token.NewFileSet()
+	exprAst, err := parser.ParseExpr(expr)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	ast.Print(fset, exprAst)
+}
+func cancelled() {
+	select {
+	case x := <-done:
+		fmt.Printf("%T", x)
+	}
+}
+func cancelled2() {
+	select {
+	case x := <-done:
+		fmt.Println(x)
+	}
+}
+func plusOne() {
+	load, _ := smap.Load("key")
+	smap.Store("key", load.(int)+1)
+}
+func launch() {
+	fmt.Println("launch")
+}
+func stop(c chan bool) {
+	os.Stdin.Read(make([]byte, 1))
+	fmt.Println("stop")
+	c <- false
+}
+func countDown(c chan bool) {
+	for i := 10; i > 0; i-- {
+		fmt.Println("count down", i)
+		time.Sleep(time.Second)
+	}
+	c <- true
+}
