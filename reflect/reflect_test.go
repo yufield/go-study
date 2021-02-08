@@ -14,10 +14,41 @@ type Type struct {
 	f6     string `one:"1" two:"2"blank:""`
 }
 
+func TestMethod(t *testing.T) {
+	typeOfType := reflect.TypeOf(Type{})
+	fmt.Println(typeOfType.NumMethod())
+}
+func TestConvert(t *testing.T) {
+	var a rune
+	var b int32
+	var c string
+	typeOfA := reflect.TypeOf(a)
+	typeOfB := reflect.TypeOf(b)
+	typeOfC := reflect.TypeOf(c)
+	fmt.Println(typeOfA.AssignableTo(typeOfB))  //true
+	fmt.Println(typeOfC.AssignableTo(typeOfA))  //false
+	fmt.Println(typeOfC.ConvertibleTo(typeOfA)) //false
+	fmt.Println(typeOfA.ConvertibleTo(typeOfC)) //true
+}
 func TestReflect(t *testing.T) {
-	type1 := reflect.TypeOf(Type{})  //获取变量对应类型reflect.Type
-	f1, _ := type1.FieldByName("f1") //根据属性名获取类型的属性reflect.StructField
-	fmt.Println(f1.Tag)              // f one 属性的标签StructTag
+	type1 := reflect.TypeOf(Type{}) //获取变量对应类型reflect.Type
+	fmt.Println(type1.Name())       //Type
+	fmt.Println(type1.String())     //reflect.Type
+	var map1 map[string]string
+	map1type := reflect.TypeOf(map1)
+	fmt.Println(map1type.Key()) //string
+	var ptr *Type
+	prtType := reflect.TypeOf(ptr)
+	fmt.Println(prtType)                                               //*reflect.Type
+	fmt.Println(reflect.PtrTo(type1))                                  //*reflect.Type
+	fmt.Println(reflect.SliceOf(type1))                                //[]reflect.Type
+	fmt.Println(reflect.MapOf(reflect.TypeOf(""), reflect.TypeOf(""))) //map[string]string
+	fmt.Println(prtType.Kind())                                        //ptr
+	fmt.Println(prtType.Elem())                                        //reflect.Type
+	fmt.Println(type1.Align())                                         //8
+	fmt.Println(type1.FieldAlign())                                    //8
+	f1, _ := type1.FieldByName("f1")                                   //根据属性名获取类型的属性reflect.StructField
+	fmt.Println(f1.Tag)                                                // f one 属性的标签StructTag
 	f4, _ := type1.FieldByName("f4")
 	fmt.Println(f4.Tag) // f four and five
 	f5, _ := type1.FieldByName("f5")
