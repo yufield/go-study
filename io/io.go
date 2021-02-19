@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"strings"
 )
 
 type alphaReader struct {
@@ -12,12 +11,20 @@ type alphaReader struct {
 	reader io.Reader
 }
 
+func (r alphaReader) Read(b []byte) (n int, err error) {
+	i := 0
+	for ; i < len(b); i++ {
+		b[i] = 'A'
+	}
+	return i, nil
+}
 func main() {
-	reader := strings.NewReader("Clear is better than clever")
+	//reader := strings.NewReader("Clear is better than clever")
+	reader := alphaReader{}
 	p := make([]byte, 4)
 
-	for {
-		n, err := reader.Read(p)
+	for i := 0; i < 50; i++ {
+		n, err := reader.Read(p) //n返回读取的字节数
 		if err != nil {
 			if err == io.EOF {
 				fmt.Println("EOF:", n)
