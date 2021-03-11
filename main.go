@@ -11,3 +11,10 @@ func main() {
 	fmt.Println(len([]rune(str)))            //8
 	fmt.Println(utf8.RuneCountInString(str)) //8
 }
+
+func init() {
+	fmt.Println("yuxinqi init")
+	defer func() {
+		fmt.Println("yuxinqi defer")
+	}()
+}

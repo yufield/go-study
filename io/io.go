@@ -36,3 +36,6 @@ func main() {
 		fmt.Println(n, string(p[:n]))
 	}
 }
+func init() {
+	fmt.Println("io init")
+}
